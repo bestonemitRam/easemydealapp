@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easeyydeal/firebase_options.dart';
 import 'package:easeyydeal/src/core/utils/data.dart';
+import 'package:easeyydeal/src/presentation/home_screen.dart';
 import 'package:easeyydeal/src/provider/ThemeProvider.dart';
 import 'package:easeyydeal/src/repo/services/ThemeService.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,28 +36,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final ThemeService _themeService = ThemeService();
-
-  @override
-  void initState() {
-    super.initState();
-    _themeService.getThemeStream().listen((theme) {
-      print("dsbjfgkjdfhg  ${theme}");
-      Provider.of<ThemeProvider>(context, listen: false).updateTheme(theme);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Dynamic Theme')),
-      body: Center(child: Text('Hello, Flutter!')),
-    );
-  }
-}
