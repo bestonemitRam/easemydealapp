@@ -175,124 +175,170 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildOffers(Map<String, dynamic> offers)
-   {
-
-    return 
-    Container(
+  Widget _buildOffers(Map<String, dynamic> offers) {
+    return Container(
       color:
           Color(int.parse(offers['background_color'].replaceAll('#', '0xff'))),
       padding: const EdgeInsets.all(16.0),
-      child:
-       Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: offers['offers'].map<Widget>((offer)
-         {
-
+        children: offers['offers'].map<Widget>((offer) {
           return Text(
             offer,
             style: TextStyle(
-                color: Color(int.parse(offers['text_color'].replaceAll('#', '0xff'))),
+                color: Color(
+                    int.parse(offers['text_color'].replaceAll('#', '0xff'))),
                 fontSize: offers['font_size'].toDouble()),
           );
         }).toList(),
       ),
-   
     );
   }
 
   Widget _buildDeals(Map<String, dynamic> deals) {
-    return Column(
-      children: deals['deals'].map<Widget>((deal) {
-        return ListTile(
-          leading: Image.network(deal['image_url'],
-              width: deal['width'].toDouble(),
-              height: deal['height'].toDouble()),
-          title: Text(deal['name']),
-          subtitle:
-              Text('Price: ₹${deal['price']} (Discount: ${deal['discount']}%)'),
-          tileColor: Color(
-              int.parse(deal['background_color'].replaceAll('#', '0xff'))),
-        );
-      }).toList(),
+    print("kjdfhgghjk  ${deals['deals']}");
+
+    return Container(
+      height: 200,
+      child: ListView.builder(
+        itemCount: deals['deals'].length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final deal = deals['deals'][index];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  deal['image_url'], // Use the URL from the backend
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: double.infinity,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
+
+    //  ListView.builder(
+    //   itemCount: imageList.length,
+    //   itemBuilder: (context, index) {
+    //     return Padding(
+    //       padding: const EdgeInsets.all(8.0),
+    //       child: Card(
+    //         elevation: 5,
+    //         shape: RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.circular(10),
+    //         ),
+    //         child: ClipRRect(
+    //           borderRadius: BorderRadius.circular(10),
+    //           child: Image.asset(
+    //             imageList[index],
+    //             fit: BoxFit.cover, // Adjust image fit
+    //             height: 200, // Set image height
+    //             width: double.infinity, // Use full width
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
+    // // Column(
+    //   children: deals['deals'].map<Widget>((deal) {
+    //     return ListTile(
+    //       leading: Image.network(deal['image_url'],
+    //           width: deal['width'].toDouble(),
+    //           height: deal['height'].toDouble()),
+    //       title: Text(deal['name']),
+    //       subtitle: Text('Price: ₹${deal['price']} (Discount: ${deal['discount']}%)'),
+    //       tileColor: Color(int.parse(deal['background_color'].replaceAll('#', '0xff'))),
+    //     );
+    //   }).toList(),
+    // );
   }
 
-  Future<void> uploadUIConfig() async {
-    final uiConfig = {
-      "header": {
-        "type": "AppBar",
-        "title": "Furniture Utsav",
-        "show_cart_icon": true,
-        "background_color": "#ffffff",
-        "height": 56
-      },
-      "sections": [
-        {
-          "type": "carousel",
-          "height": 200,
-          "images": [
-            {"url": "url1.jpg", "border_radius": 10},
-            {"url": "url2.jpg", "border_radius": 10}
-          ]
-        },
-        {
-          "type": "category_grid",
-          "categories": [
-            {
-              "name": "Living Room",
-              "icon": "living_room_icon.png",
-              "width": 70,
-              "height": 70,
-              "text_color": "#333333"
-            },
-            {
-              "name": "Bedroom",
-              "icon": "bedroom_icon.png",
-              "width": 70,
-              "height": 70,
-              "text_color": "#333333"
-            }
-          ]
-        },
-        {
-          "type": "offers",
-          "background_color": "#f9f9f9",
-          "text_color": "#ff5722",
-          "font_size": 16,
-          "offers": ["Extra ₹100 off on SBI", "Flat 15% off on select items"]
-        },
-        {
-          "type": "deals",
-          "deals": [
-            {
-              "name": "Flex 3 Seater Magic",
-              "price": 10499,
-              "discount": 72,
-              "image_url": "deal1.jpg",
-              "width": 150,
-              "height": 100,
-              "background_color": "#ffffff"
-            },
-            {
-              "name": "Flex Fabric 3 Seater",
-              "price": 9499,
-              "discount": 74,
-              "image_url": "deal2.jpg",
-              "width": 150,
-              "height": 100,
-              "background_color": "#ffffff"
-            }
-          ]
-        }
-      ]
-    };
+  // Future<void> uploadUIConfig() async {
+  //   final uiConfig = {
+  //     "header": {
+  //       "type": "AppBar",
+  //       "title": "Furniture Utsav",
+  //       "show_cart_icon": true,
+  //       "background_color": "#ffffff",
+  //       "height": 56
+  //     },
+  //     "sections": [
+  //       {
+  //         "type": "carousel",
+  //         "height": 200,
+  //         "images": [
+  //           {"url": "url1.jpg", "border_radius": 10},
+  //           {"url": "url2.jpg", "border_radius": 10}
+  //         ]
+  //       },
+  //       {
+  //         "type": "category_grid",
+  //         "categories": [
+  //           {
+  //             "name": "Living Room",
+  //             "icon": "living_room_icon.png",
+  //             "width": 70,
+  //             "height": 70,
+  //             "text_color": "#333333"
+  //           },
+  //           {
+  //             "name": "Bedroom",
+  //             "icon": "bedroom_icon.png",
+  //             "width": 70,
+  //             "height": 70,
+  //             "text_color": "#333333"
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         "type": "offers",
+  //         "background_color": "#f9f9f9",
+  //         "text_color": "#ff5722",
+  //         "font_size": 16,
+  //         "offers": ["Extra ₹100 off on SBI", "Flat 15% off on select items"]
+  //       },
+  //       {
+  //         "type": "deals",
+  //         "deals": [
+  //           {
+  //             "name": "Flex 3 Seater Magic",
+  //             "price": 10499,
+  //             "discount": 72,
+  //             "image_url": "deal1.jpg",
+  //             "width": 150,
+  //             "height": 100,
+  //             "background_color": "#ffffff"
+  //           },
+  //           {
+  //             "name": "Flex Fabric 3 Seater",
+  //             "price": 9499,
+  //             "discount": 74,
+  //             "image_url": "deal2.jpg",
+  //             "width": 150,
+  //             "height": 100,
+  //             "background_color": "#ffffff"
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   };
 
-    await FirebaseFirestore.instance
-        .collection('ui_config')
-        .doc('config_1') // Custom document ID
-        .set(uiConfig);
+  //   await FirebaseFirestore.instance
+  //       .collection('ui_config')
+  //       .doc('config_1') // Custom document ID
+  //       .set(uiConfig);
 
-    print("UI config uploaded successfully!");
-  }
+  //   print("UI config uploaded successfully!");
+  // }
 }
