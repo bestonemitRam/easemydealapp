@@ -196,74 +196,150 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildDeals(Map<String, dynamic> deals) {
-    print("kjdfhgghjk  ${deals['deals']}");
-
     return Container(
-      height: 200,
-      child: ListView.builder(
-        itemCount: deals['deals'].length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final deal = deals['deals'][index];
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  deal['image_url'], // Use the URL from the backend
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: double.infinity,
+      height: deals['height'].toDouble(),
+      child: Padding(
+        padding: EdgeInsets.all(deals['padding'].toDouble()),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                deals['icon'] ? Icon(Icons.ac_unit_rounded) : SizedBox(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      deals['title'],
+                      style: TextStyle(fontSize: deals['fontSize'].toDouble()),
+                    ),
+                    Text(
+                      deals['buy'],
+                      style:
+                          TextStyle(fontSize: deals['fontSize'].toDouble() / 2),
+                    )
+                  ],
                 ),
+                Spacer(),
+                Text('View all'),
+                Icon(
+                  Icons.arrow_forward,
+                  size: 10,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 6
+              0,
+            ),
+            Container(
+              height: deals['height'].toDouble() / 1.7,
+              child: ListView.builder(
+                itemCount: deals['deals'].length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final deal = deals['deals'][index];
+                  return Container(
+                    width: deals['width'].toDouble(),
+                    // height: deals['height'].toDouble() / 0.9,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stack(
+                        children: [
+                          // Background Image
+                          Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.asset(
+                                  imageList[index],
+                                  height: 60,
+                                  width: double.infinity,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Container(
+                                  child: Text("Flex 3 Seater Magic Bekjrr",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: Colors.black)),
+                                ),
+                              )
+                            ],
+                          ),
+
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(int.parse(deal['background_color']
+                                    .replaceAll('#', '0xff'))),
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(
+                                      deal["bottomLeft"].toDouble()),
+                                  bottomRight: Radius.circular(
+                                      deal["bottomRight"].toDouble()),
+                                ),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  children: [
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: "-" +
+                                                deal["discount"].toString() +
+                                                "%",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12.0, // Big size
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: " off ",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10.0, // Small size
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: deal["price"].toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 11.0, // Small size
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
-
-    //  ListView.builder(
-    //   itemCount: imageList.length,
-    //   itemBuilder: (context, index) {
-    //     return Padding(
-    //       padding: const EdgeInsets.all(8.0),
-    //       child: Card(
-    //         elevation: 5,
-    //         shape: RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.circular(10),
-    //         ),
-    //         child: ClipRRect(
-    //           borderRadius: BorderRadius.circular(10),
-    //           child: Image.asset(
-    //             imageList[index],
-    //             fit: BoxFit.cover, // Adjust image fit
-    //             height: 200, // Set image height
-    //             width: double.infinity, // Use full width
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-    // // Column(
-    //   children: deals['deals'].map<Widget>((deal) {
-    //     return ListTile(
-    //       leading: Image.network(deal['image_url'],
-    //           width: deal['width'].toDouble(),
-    //           height: deal['height'].toDouble()),
-    //       title: Text(deal['name']),
-    //       subtitle: Text('Price: ₹${deal['price']} (Discount: ${deal['discount']}%)'),
-    //       tileColor: Color(int.parse(deal['background_color'].replaceAll('#', '0xff'))),
-    //     );
-    //   }).toList(),
-    // );
   }
-
   // Future<void> uploadUIConfig() async {
   //   final uiConfig = {
   //     "header": {
